@@ -15,47 +15,19 @@ body {
     text-align: center;
     transition: background-color 0.3s ease;
 }
+
 header {
     background-color: var(--header-background-color);
     padding: 20px 0;
     transition: background-color 0.3s ease;
 }
-h1 {
-    margin: 14px 0;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-.description {
-    padding: 0 24px 24px;
-    font-size: 14px;
-    opacity: 0.8;
-}
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-}
-.portfolio-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-.portfolio-item:hover img {
-    transform: scale(1.05);
-}
 footer {
-    margin-top: 20px;
-    padding: 20px;
+    padding: 24px;
     background-color: var(--footer-background-color);
     transition: background-color 0.3s ease;
 }
+
 a {
-    margin-top: 20px;
-    padding: 20px;
     background-color: var(--footer-background-color);
     transition: background-color 0.3s ease;
     color: var(--accent-color);
@@ -68,6 +40,19 @@ a:hover {
 
 a:visited {
     color: var(--accent-color);
+}
+
+h1 {
+    margin: 14px 0;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.description {
+    padding: 0 24px 24px;
+    font-size: 14px;
+    opacity: 0.8;
 }
 
 .header-image img {
@@ -83,10 +68,6 @@ a:visited {
 
 .social-links img {
     width: 24px;
-}
-
-.social-links a:hover {
-    color: #fff;
 }
 
 @media (max-width: 767px) {
