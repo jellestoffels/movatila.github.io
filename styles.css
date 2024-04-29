@@ -89,7 +89,7 @@ a:visited {
 .social-links {
     display: flex;
     justify-content: space-evenly;
-    width: 100%;
+    width: 75%;
 }
 
 .social-links a:hover {
