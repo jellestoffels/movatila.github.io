@@ -82,13 +82,20 @@ header img {
 }
 
 .social-links a {
-    margin: 0 24px;
+    margin: 0 10px;
     text-decoration: none;
     color: var(--accent-color);
     transition: color 0.3s ease;
     width: 20px; 
-    margin-inline: 24px;
+    display: inline-block;
 }
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
 .social-links a:hover {
     color: #fff;
 }
