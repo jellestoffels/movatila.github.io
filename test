@@ -1,5 +1,0 @@
-$ dig movatila.com +noall +answer -t A
-> movatila.com    3600    IN A     185.199.108.153
-> movatila.com    3600    IN A     185.199.109.153
-> movatila.com    3600    IN A     185.199.110.153
-> movatila.com    3600    IN A     185.199.111.153
