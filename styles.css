@@ -22,7 +22,7 @@ header {
     transition: background-color 0.3s ease;
 }
 footer {
-    padding: 24px;
+    padding: 10px;
     background-color: var(--footer-background-color);
     transition: background-color 0.3s ease;
 }
@@ -57,7 +57,8 @@ h1 {
 
 .header-image img {
     margin: 0 auto;
-    width: 700px;
+    max-width: 600px;
+    width: 100%;
 }
 
 .social-links {
