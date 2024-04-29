@@ -77,6 +77,10 @@ a:visited {
     color: var(--accent-color);
 }
 
+header img {
+    width: 75%;
+}
+
 .social-links a {
     margin: 0 24px;
     text-decoration: none;
