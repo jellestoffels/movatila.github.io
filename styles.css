@@ -71,18 +71,16 @@ a:visited {
 }
 
 .header-image img {
-    display: block;
     margin: 0 auto;
     width: 75%;
 }
 
-.social-links a {
+.social-links img {
     margin: 0;
     text-decoration: none;
     color: var(--accent-color);
     transition: color 0.3s ease;
-    width: 24px;
-    height: 24px;
+    width: 20px;
     display: inline-block;
 }
 
