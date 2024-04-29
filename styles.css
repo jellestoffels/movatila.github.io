@@ -77,7 +77,9 @@ a:visited {
     color: var(--accent-color);
 }
 
-header img {
+.header-image img {
+    display: block;
+    margin: 0 auto;
     width: 75%;
 }
 
