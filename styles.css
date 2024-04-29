@@ -81,7 +81,8 @@ a:visited {
     text-decoration: none;
     color: var(--accent-color);
     transition: color 0.3s ease;
-    width: 20px; 
+    width: 24px;
+    height: 24px;
     display: inline-block;
 }
 
