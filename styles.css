@@ -57,13 +57,14 @@ h1 {
 
 .header-image img {
     margin: 0 auto;
-    width: 700;
+    width: 700px;
 }
 
 .social-links {
     display: flex;
+    width: 100%;
+    flex-direction: row;
     justify-content: space-evenly;
-    width: 75%;
 }
 
 .social-links img {
