@@ -83,10 +83,3 @@ h1 {
 .social-links img {
     width: 24px;
 }
-
-@media (max-width: 767px) {
-    iframe {
-    max-width: calc(100vw + 40px) !important;
-    justify-content: center;
-    margin: -11px -25px;}
-}
