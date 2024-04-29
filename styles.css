@@ -72,22 +72,17 @@ a:visited {
 
 .header-image img {
     margin: 0 auto;
-    width: 75%;
-}
-
-.social-links img {
-    margin: 0;
-    text-decoration: none;
-    color: var(--accent-color);
-    transition: color 0.3s ease;
-    width: 24px;
-    display: inline-block;
+    width: 700;
 }
 
 .social-links {
     display: flex;
     justify-content: space-evenly;
     width: 75%;
+}
+
+.social-links img {
+    width: 24px;
 }
 
 .social-links a:hover {
