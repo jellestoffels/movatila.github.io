@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+  
+  form, ul {
+    margin: 20px 0;
+  }
+  
+  input, textarea, button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1em;
+  }
+  

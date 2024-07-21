@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Send Message</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <h1>Send Message to <%= user.name %></h1>
+  <form action="/message/<%= user._id %>" method="POST">
+    <input type="hidden" name="from" value="<%= user.email %>">
+    <textarea name="content" placeholder="Your message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</body>
+</html>
