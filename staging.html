@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
@@ -21,6 +22,18 @@
     <meta name="theme-color" content="#111111">
     <title>MOVA</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        function handleFormSubmit(event) {
+            // Listen for form submission in the iframe
+            var iframe = document.querySelector('iframe');
+            iframe.onload = function() {
+                if (iframe.contentWindow.location.href.includes('formResponse')) {
+                    window.location.href = 'received.html';
+                }
+            };
+        }
+        window.onload = handleFormSubmit;
+    </script>
 </head>
 
 <header>
@@ -30,28 +43,7 @@
 </header>
 
 <body>
-    <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="720" height="1900" frameborder="0" marginheight="0" marginwidth="0"  style="filter: invert(95%);">Loading…</iframe>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var iframe = document.getElementById('google-form');
-
-            // Check for the content change in the iframe
-            iframe.onload = function() {
-                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                
-                // Poll for changes in the iframe content
-                var checkFormSubmission = setInterval(function() {
-                    var formCompletedText = iframeDocument.querySelector('div.freebirdFormviewerViewResponseConfirmationMessage');
-                    
-                    if (formCompletedText) {
-                        clearInterval(checkFormSubmission);
-                        window.location.href = 'received.html';
-                    }
-                }, 1000);
-            };
-        });
-    </script>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="720" height="1900" frameborder="0" marginheight="0" marginwidth="0"  style="filter: invert(95%);">Loading…</iframe>
 </body>
 
 <footer>
