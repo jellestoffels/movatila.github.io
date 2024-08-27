@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#111111">
+    <title>MOVA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<header>
+    <div class="header-image">
+        <a href="https://instagram.com/mova_amsterdam"><img src="images/full-logo-white.png" alt="Mova Logo"></a>
+    </div>
+</header>
+
+<body>
+    <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="720" height="1900" frameborder="0" marginheight="0" marginwidth="0"  style="filter: invert(95%);">Loading…</iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var iframe = document.getElementById('google-form');
+
+            // Check for the content change in the iframe
+            iframe.onload = function() {
+                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                
+                // Poll for changes in the iframe content
+                var checkFormSubmission = setInterval(function() {
+                    var formCompletedText = iframeDocument.querySelector('div.freebirdFormviewerViewResponseConfirmationMessage');
+                    
+                    if (formCompletedText) {
+                        clearInterval(checkFormSubmission);
+                        window.location.href = 'received.html';
+                    }
+                }, 1000);
+            };
+        });
+    </script>
+</body>
+
+<footer>
+    <div class="social-links">
+        <a href="https://soundcloud.com/mova-tila"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/soundcloud-white-icon.png" alt="Soundcloud"></a>
+        <a href="https://instagram.com/mova_amsterdam"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram"></a>
+        <a href="mailto:info@movatila.com"><img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/round-information-outline-white-icon.png" alt="Email"></a>
+    </div>
+</footer>
+
+</html>
