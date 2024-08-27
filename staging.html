@@ -23,16 +23,10 @@
     <title>MOVA</title>
     <link rel="stylesheet" href="styles.css">
     <script>
-        function handleFormSubmit(event) {
-            // Listen for form submission in the iframe
+        function resizeIframe() {
             var iframe = document.querySelector('iframe');
-            iframe.onload = function() {
-                if (iframe.contentWindow.location.href.includes('formResponse')) {
-                    window.location.href = 'received.html';
-                }
-            };
+            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
         }
-        window.onload = handleFormSubmit;
     </script>
 </head>
 
@@ -43,7 +37,7 @@
 </header>
 
 <body>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="720" height="1900" frameborder="0" marginheight="0" marginwidth="0"  style="filter: invert(95%);">Loading…</iframe>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="720" height="1900" frameborder="0" marginheight="0" marginwidth="0"  style="filter: invert(95%);" onload="resizeIframe()">Loading…</iframe>
 </body>
 
 <footer>
