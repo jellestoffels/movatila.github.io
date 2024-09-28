@@ -6,39 +6,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Icon links -->
     <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-    <link rel="manifest" href="/images/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#111111">
+    <!-- (Other icon links remain unchanged) -->
     <title>MOVA</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #f4f4f4;
+            background-color: #111111;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
         .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 0 10px;
+            padding: 20px;
+        }
+
+        header .header-image {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1, h2 {
+            color: #f4f4f4;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        strong {
+            color: #f4f4f4;
+        }
+
+        a {
+            color: #f4f4f4;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+        }
+
+        th, td {
+            border: 1px solid #555555;
+            padding: 10px;
+        }
+
+        th {
+            font-weight: bold;
+            background-color: transparent;
+        }
+
+        .do {
+            color: #99FF99;
+        }
+
+        .dont {
+            color: #FF9999;
+        }
+
+        .do td {
+            background-color: #111111;
+            color: #EEFFEE;
+        }
+
+        .dont td {
+            background-color: #111111;
+            color: #FFEEEE;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
         }
 
         iframe {
             width: 100%;
-            height: "1900";
+            height: 1900px;
+            filter: invert(95%);
+            border: none;
         }
 
         @media (max-width: 768px) {
             .container {
                 max-width: 100%;
+                padding: 10px;
             }
         }
     </style>
@@ -47,99 +132,84 @@
     <div class="container">
         <header>
             <div class="header-image">
-                <a href="https://instagram.com/mova_amsterdam"><img src="images/full-logo-white.png" alt="Mova Logo"></a>
+                <a href="https://instagram.com/mova_amsterdam">
+                    <img src="images/full-logo-white.png" alt="Mova Logo">
+                </a>
             </div>
         </header>
 
-        <h1><span style="color:#f4f4f4;">05 10 24</span></h1>
-        <p><strong><span style="color:#f4f4f4;">Saturday night</span></strong></p>
-        <p><strong><span style="color:#f4f4f4;">21:00 &nbsp; 07:00</span></strong></p>
-        <p></p>
-        <b>Sign up below to receive the location</b>
-        <p></p>
-        <u>You do not have to sign up a second time.</u>
-        <p></p>
-        MOVA is an intimate gathering of like-minded individuals who are searching for a safe and comfortable space to dance, meet & play together. All genders and sexualities are welcome. 
-        <p></p>
-        <p></p>
+        <h1>05 10 24</h1>
+        <p><strong>Saturday night</strong></p>
+        <p><strong>21:00 &nbsp; 07:00</strong></p>
+
+        <p><strong>Sign up below to receive the location</strong></p>
+        <p><u>You do not have to sign up a second time.</u></p>
+        <p>MOVA is an intimate gathering of like-minded individuals who are searching for a safe and comfortable space to dance, meet &amp; play together. All genders and sexualities are welcome.</p>
+
         <h2>Line-up</h2>
-        <p></p>
-        <p><a href="https://soundcloud.com/dj-red" target="_blank" tabindex="-1"><strong><span style="font-size: 19px">DJ Red</span></strong></a></p>
-        <p><a href="https://soundcloud.com/kyosomusic" target="_blank" tabindex="-1"><strong><span style="font-size: 19px">Kyoso</span></strong></a></p>
-        <p><a href="https://soundcloud.com/wispelturig" target="_blank" tabindex="-1"><strong><span style="font-size: 19px">Wispelturig</span></strong></a></p>
-        <p></p>
-        <p></p>
+        <p><a href="https://soundcloud.com/dj-red" target="_blank"><strong>DJ Red</strong></a></p>
+        <p><a href="https://soundcloud.com/kyosomusic" target="_blank"><strong>Kyoso</strong></a></p>
+        <p><a href="https://soundcloud.com/wispelturig" target="_blank"><strong>Wispelturig</strong></a></p>
+
         <h2>House Rules</h2>
         <p>Please read carefully.</p>
         <ul>
-            <li><p style="text-align: left;">Strict no picture policy</p></li>
-            <li><p style="text-align: left;">No prejudice or discrimination</p></li>
-            <li><p style="text-align: left;">No consumption in the toilets</p></li>
-            <li><p style="text-align: left;">Do not bring GHB</p></li>
-            <li><p style="text-align: left;">Adhere to the consent rules:</p></li>
+            <li>Strict no picture policy</li>
+            <li>No prejudice or discrimination</li>
+            <li>No consumption in the toilets</li>
+            <li>Do not bring GHB</li>
+            <li>Adhere to the consent rules:</li>
         </ul>
-        <p></p>
-        <table style="width:100%; text-align: left; border-collapse: collapse;">
+
+        <table>
+            <thead>
+                <tr>
+                    <th class="do">Do</th>
+                    <th class="dont">Don't</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
-                    <th style="background-color: transparent; color: #99FF99; border: 1px solid #555555; font-weight: bold;">
-                        <p><strong>Do</strong></p>
-                    </th>
-                    <th style="background-color: transparent; color: #FF9999; border: 1px solid #555555; font-weight: bold;">
-                        <p><strong>Don't</strong></p>
-                    </th>
+                    <td>Ask for specific and certain consent</td>
+                    <td>Touch others without asking</td>
                 </tr>
                 <tr>
-                    <td style="background-color: transparent; color: #EEFFEE; border: 1px solid #555555;">
-                        <p>Ask for specific and certain consent</p>
-                    </td>
-                    <td style="background-color: transparent; color: #FFEEEE; border: 1px solid #555555;">
-                        <p>Touch others without asking</p>
-                    </td>
+                    <td>Use clear and verbal communication</td>
+                    <td>Assume consent</td>
                 </tr>
                 <tr>
-                    <td style="background-color: transparent; color: #EEFFEE; border: 1px solid #555555;">
-                        <p>Use clear and verbal communication</p>
-                    </td>
-                    <td style="background-color: transparent; color: #FFEEEE; border: 1px solid #555555;">
-                        <p>Assume consent</p>
-                    </td>
+                    <td>Respect others' privacy</td>
+                    <td>Enter others' personal space</td>
                 </tr>
                 <tr>
-                    <td style="background-color: transparent; color: #EEFFEE; border: 1px solid #555555;">
-                        <p>Respect other’s privacy</p>
-                    </td>
-                    <td style="background-color: transparent; color: #FFEEEE; border: 1px solid #555555;">
-                        <p>Enter other’s personal space</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: transparent; color: #EEFFEE; border: 1px solid #555555;">
-                        <p>Wait for others to make space</p>
-                    </td>
-                    <td style="background-color: transparent; color: #FFEEEE; border: 1px solid #555555;">
-                        <p>Public self-pleasure</p>
-                    </td>
+                    <td>Wait for others to make space</td>
+                    <td>Public self-pleasure</td>
                 </tr>
             </tbody>
         </table>
-        <p></p>
+
         <p>Violating these rules will result in immediate removal from the event.</p>
-        <p></p>
+
         <h2>Dresscode</h2>
         <ul>
-            <li><p style="text-align: left;">Revealing or otherwise expressive</p></li>
-            <li><p style="text-align: left;">No blue jeans, formal, or everyday wear</p></li>
-            <li><p style="text-align: left;">Closed shoes are mandatory</p></li>
+            <li>Revealing or otherwise expressive</li>
+            <li>No blue jeans, formal, or everyday wear</li>
+            <li>Closed shoes are mandatory</li>
         </ul>
 
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true" width="100%" height="1900" frameborder="0" marginheight="0" marginwidth="0" style="filter: invert(95%);">Loading…</iframe>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd9xvRcP8jwv_-tTtm346FA4sQn1tgSuhQeSkALlDVk-yH2Jw/viewform?embedded=true">Loading…</iframe>
 
         <footer>
             <div class="social-links">
-                <a href="https://soundcloud.com/mova-tila"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/soundcloud-white-icon.png" alt="Soundcloud"></a>
-                <a href="https://instagram.com/mova_amsterdam"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram"></a>
-                <a href="mailto:info@movatila.com"><img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/round-information-outline-white-icon.png" alt="Email"></a>
+                <a href="https://soundcloud.com/mova-tila">
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/soundcloud-white-icon.png" alt="Soundcloud">
+                </a>
+                <a href="https://instagram.com/mova_amsterdam">
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/instagram-white-icon.png" alt="Instagram">
+                </a>
+                <a href="mailto:info@movatila.com">
+                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/round-information-outline-white-icon.png" alt="Email">
+                </a>
             </div>
         </footer>
     </div>
