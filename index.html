@@ -1,93 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport meta tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Icon links -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+    
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-    <link rel="manifest" href="/images/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#111111">
+    <meta name="theme-color" content="#050505">
+    
     <title>MOVA</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 10px;
-        }
-
-        iframe {
-            width: 100%;
-            height: "1900";
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                max-width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="header-image">
-                <a href="https://instagram.com/mova_amsterdam"><img src="images/full-logo-white.png" alt="Mova Logo"></a>
+            <div class="logo-container">
+                <a href="https://instagram.com/mova_amsterdam" class="logo-link">
+                    <img src="images/full-logo-white.png" alt="Mova Logo">
+                </a>
             </div>
         </header>
 
-        <h1><span style="color:#f4f4f4;">07 03 26</span></h1>
-        <strong><span style="color:#f4f4f4;"></span>21:00 - 08:00</strong>
-        
-        <br> <strong><span style="color:#f4f4f4;"></span>Secret Location | Amsterdam</strong>
-        <br>
-        <br>
-        <h2>Sign up below to receive the location</h2>
-        MOVA is a gathering of like-minded individuals who are searching for a space to dance, meet & play. All genders and sexualities are welcome. 
-        <br>
-        <br>
-        <br>
-        <h2>Information</h2>
-        <ul>
-            <li><p style="text-align: left;">Invite-only</p></li>
-            <li><p style="text-align: left;">Door sale only</p></li>
-            <li><p style="text-align: left;">Extended sets</p></li>
-            <li><p style="text-align: left;">Dressing room with lockers</p></li>
-            <li><p style="text-align: left;">Play Area</p></li>
-        </ul>
-        <br>
-        <h1>House Rules</h1>
-        <img src="images/House Rules_email_1_transparent.png" alt="House Rules" style="width: 100%; height: auto;">
-        <h1>Consent Rules</h1>
-        <img src="images/consent_rules.png" alt="Consent Rules" style="width: 100%; height: auto;">
-        <h1>Dress Code</h1>
-        <img src="images/Dress Code_transparent.png" alt="Dress Code" style="width: 100%; height: auto;">
-        <br>
-        <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLScfFvfX1t-asI_ftOuOHeLf-lU3tnH9V-OPh97qrmDFyQv8-w/viewform?embedded=true"
-            width="100%" 
-            height="1400" 
-            frameborder="0" 
-            marginheight="0" 
-            marginwidth="0" 
-            style="filter: invert(95%) grayscale(100%);">
-            Loading…
-        </iframe>
+        <main>
+            <div class="info-block">
+                <h1>07 03 26</h1>
+                <div class="meta-details">
+                    <span>21:00 - 08:00</span>
+                    <span class="separator">|</span>
+                    <span> Amsterdam</span>
+                </div>
+            </div>
+
+            <section class="intro">
+                <p>MOVA is a gathering of like-minded individuals who are searching for a space to dance, meet & play. All genders and sexualities are welcome.</p>
+            </section>
+
+            <section class="visuals">
+                
+                <details>
+                    <summary>Information</summary>
+                    <div class="dropdown-content center-content">
+                        <ul class="feature-list">
+                            <li>Invite-only</li>
+                            <li>Secret location</li>
+                            <li>Door sale only</li>
+                            <li>Two dance floors</li>
+                            <li>Extended sets</li>
+                            <li>Art Exhibitions</li>
+                            <li>Dressing room with lockers</li>
+                            <li>Play Area</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details id="house-rules-section">
+                    <summary>House Rules</summary>
+                    <div class="dropdown-content">
+                        <img src="images/House Rules_email_1_transparent.png" alt="House Rules">
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Consent Rules</summary>
+                    <div class="dropdown-content">
+                        <img src="images/consent_rules.png" alt="Consent Rules">
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Dress Code</summary>
+                    <div class="dropdown-content">
+                        <img src="images/Dress Code_transparent.png" alt="Dress Code">
+                    </div>
+                </details>
+
+                <details open>
+                    <summary>
+                        <div class="header-wrapper">
+                            Invitation 
+                            <span class="rsvp-badge status-open">RSVP: Open</span>
+                        </div>
+                    </summary>
+                    
+                    <div class="dropdown-content">
+                        
+                        <section class="signup-section">
+                            
+                            <div class="form-header">
+                                Request an invitation by filling out the form below:
+                            </div>
+
+                            <script type="text/javascript">
+                                var submitted = false;
+                                
+                                function openRules() {
+                                    const rulesSection = document.getElementById('house-rules-section');
+                                    rulesSection.open = true;
+                                    rulesSection.scrollIntoView({behavior: "smooth", block: "center"});
+                                }
+
+                                function validateForm(event) {
+                                    const checkbox = document.getElementById('rules-checkbox');
+                                    const errorMsg = document.getElementById('error-msg');
+                                    const checkboxContainer = document.querySelector('.checkbox-group');
+
+                                    if (!checkbox.checked) {
+                                        event.preventDefault(); 
+                                        errorMsg.style.display = 'block'; 
+                                        checkboxContainer.classList.add('error-border'); 
+                                        checkboxContainer.style.animation = "shake 0.5s";
+                                        setTimeout(() => checkboxContainer.style.animation = "none", 500);
+                                        return false;
+                                    }
+                                    
+                                    submitted = true;
+                                    return true;
+                                }
+                            </script>
+
+                            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {document.getElementById('mova-form').classList.add('hidden'); document.getElementById('thank-you-message').style.display='block';}"></iframe>
+                            
+                            <form 
+                                action="https://docs.google.com/forms/d/e/1FAIpQLScfFvfX1t-asI_ftOuOHeLf-lU3tnH9V-OPh97qrmDFyQv8-w/formResponse" 
+                                method="post" 
+                                target="hidden_iframe" 
+                                id="mova-form"
+                                onsubmit="return validateForm(event);">
+
+                                <div class="form-group">
+                                    <input type="email" name="entry.623637060" placeholder="Your Email address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="text" name="entry.358228535" placeholder="Instagram handle (or link to other social media)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="text" name="entry.999373531" placeholder="Email addres of the person who invited you (if applicable)">
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea name="entry.2073387884" rows="5" placeholder="Describe yourself and your reasons to attend" required></textarea>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" id="rules-checkbox" name="entry.712444129" value="I have read the house rules and will adhere to these during the event">
+                                        <span class="checkmark"></span>
+                                        <span class="label-text">
+                                            I have read the <a href="#house-rules-section" onclick="openRules()">house rules</a> and will adhere to these during the event
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div id="error-msg" class="error-message">
+                                    Make sure to have read ALL the house rules and confirm.
+                                </div>
+
+                                <button type="submit" class="submit-btn">Submit</button>
+                            </form>
+
+                            <div id="thank-you-message" style="display:none;">
+                                <h2>Succesfully requested an invitation</h2>
+                                <p>You will receive an email confirmation.
+                                Please check your spam folder.
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+                </details>
+
+            </section>
+            
+            </main>
 
         <footer>
             <div class="social-links">
