@@ -5,6 +5,7 @@
     --accent: rgb(147, 189, 164);
     --border-color: #333333;
     --error-color: #ff4d4d;
+    --closed-color: #ff6b6b; /* Light Red for Closed status */
 }
 
 * {
@@ -19,11 +20,11 @@ body {
     padding: 0;
     line-height: 1.6;
     text-align: center;
-    -webkit-font-smoothing: antialiased; /* Crisp text on Mac */
+    -webkit-font-smoothing: antialiased;
 }
 
 .container {
-    max-width: 680px; /* Slightly narrower for reading comfort */
+    max-width: 680px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -34,7 +35,7 @@ header {
 }
 
 .logo-container img {
-    max-width: 500px; /* Slightly smaller logo */
+    max-width: 500px;
     width: 100%;
     height: auto;
 }
@@ -81,7 +82,8 @@ p {
 /* --- COLLAPSIBLE SECTIONS (ACCORDION) --- */
 details {
     margin-bottom: 0;
-    border-bottom: 1px solid #1a1a1a;
+    /* REMOVED UNDERLINE AS REQUESTED */
+    border-bottom: none; 
 }
 
 summary {
@@ -132,6 +134,36 @@ details[open] summary::after {
     color: var(--accent);
 }
 
+/* --- RSVP STATUS BADGE --- */
+.rsvp-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-left: 15px;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+    text-shadow: none; /* Prevents parent glow from affecting badge readability */
+    border: 1px solid currentColor;
+    /* This ensures the badge sits next to the text, not pushed to the right by flex */
+    display: inline-block; 
+}
+
+/* Green "Open" State */
+.status-open {
+    color: var(--accent);
+    background-color: rgba(147, 189, 164, 0.1);
+    box-shadow: 0 0 10px rgba(147, 189, 164, 0.2);
+}
+
+/* Red "Closed" State */
+.status-closed {
+    color: var(--closed-color);
+    background-color: rgba(255, 107, 107, 0.1);
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+
 .dropdown-content {
     padding: 0 10px 30px 10px;
 }
@@ -180,11 +212,20 @@ details[open] summary::after {
 
 /* --- FORM STYLING --- */
 .signup-section {
-    margin: 60px 0;
+    margin: 20px 0 60px 0;
     padding: 40px 30px;
-    background: #0a0a0a; /* Subtle differentiation from body bg */
+    background: #0a0a0a; 
     border: 1px solid #111;
     border-radius: 4px;
+}
+
+/* New Header inside the Form */
+.form-header {
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.1em;
 }
 
 .form-group {
@@ -200,11 +241,11 @@ textarea {
     padding: 12px 0;
     background: transparent;
     border: none;
-    border-bottom: 1px solid #333; /* Minimal underline */
+    border-bottom: 1px solid #333; 
     color: #fff;
     font-family: inherit; 
     font-size: 16px; 
-    border-radius: 0; /* Remove rounded corners for cleaner look */
+    border-radius: 0; 
     transition: border-color 0.3s ease;
 }
 
@@ -213,7 +254,6 @@ textarea {
     min-height: 80px;
 }
 
-/* Focus State */
 input:focus,
 textarea:focus {
     outline: none;
@@ -221,7 +261,6 @@ textarea:focus {
     background: transparent;
 }
 
-/* Placeholder styling */
 ::placeholder {
     color: #444;
     font-weight: 300;
@@ -232,13 +271,12 @@ textarea:focus {
     text-align: left;
     margin: 40px 0 20px 0;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.05); /* Highlight box */
+    background: rgba(255, 255, 255, 0.05); 
     border: 1px solid #222;
     border-radius: 6px;
     transition: border-color 0.3s ease;
 }
 
-/* Error state for checkbox box */
 .checkbox-group.error-border {
     border-color: var(--error-color);
     background: rgba(255, 77, 77, 0.05);
@@ -262,7 +300,6 @@ textarea:focus {
     width: 0;
 }
 
-/* The actual box square */
 .checkmark {
     position: absolute;
     top: 2px;
@@ -275,18 +312,15 @@ textarea:focus {
     transition: all 0.2s;
 }
 
-/* Checkbox Hover */
 .custom-checkbox:hover input ~ .checkmark {
     border-color: #fff;
 }
 
-/* Checked State */
 .custom-checkbox input:checked ~ .checkmark {
     background-color: var(--accent);
     border-color: var(--accent);
 }
 
-/* Check mark icon */
 .checkmark:after {
     content: "";
     position: absolute;
@@ -312,7 +346,6 @@ textarea:focus {
     font-weight: 500;
 }
 
-/* The Link inside the label */
 .label-text a {
     color: var(--accent);
     text-decoration: underline;
@@ -327,7 +360,7 @@ textarea:focus {
 
 /* --- ERROR MESSAGE --- */
 .error-message {
-    display: none; /* Hidden by default */
+    display: none; 
     color: var(--error-color);
     font-weight: bold;
     font-size: 14px;
@@ -364,7 +397,7 @@ textarea:focus {
 
 .submit-btn:hover {
     background-color: var(--accent);
-    transform: translateY(-2px); /* Slight lift */
+    transform: translateY(-2px); 
     box-shadow: 0 5px 15px rgba(147, 189, 164, 0.2);
 }
 
@@ -386,7 +419,7 @@ textarea:focus {
 footer {
     padding: 40px 0;
     margin-top: 60px;
-    border-top: 1px solid #111;
+    border-top: 1px solid #111; /* Kept underline here */
 }
 
 .social-links {
@@ -414,6 +447,28 @@ footer {
     h1 { font-size: 26px; }
     
     summary { font-size: 20px; }
-    
+
+    /* 1. New Wrapper to group Text and Badge together */
+    .header-wrapper {
+        display: flex;
+        align-items: center; /* Vertically centers the badge with text */
+        gap: 15px; /* Creates the space between "Invitation" and the Badge */
+    }
+
+    /* 2. Updated Badge Styling */
+    .rsvp-badge {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 5px 12px;
+        border-radius: 20px;
+        /* margin-left: 15px;  <-- REMOVE THIS (The gap in header-wrapper handles it now) */
+        vertical-align: middle;
+        letter-spacing: 0.5px;
+        text-shadow: none;
+        border: 1px solid currentColor;
+        display: inline-block;
+        white-space: nowrap; /* Prevents badge text from wrapping on small screens */
+    }
+
     .signup-section { padding: 30px 20px; }
 }
