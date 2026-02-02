@@ -1,0 +1,419 @@
+:root {
+    --bg-color: #050505;
+    --text-main: #e6e6e6;
+    --text-muted: #888888;
+    --accent: rgb(147, 189, 164);
+    --border-color: #333333;
+    --error-color: #ff4d4d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    text-align: center;
+    -webkit-font-smoothing: antialiased; /* Crisp text on Mac */
+}
+
+.container {
+    max-width: 680px; /* Slightly narrower for reading comfort */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    padding: 40px 0 20px;
+}
+
+.logo-container img {
+    max-width: 500px; /* Slightly smaller logo */
+    width: 100%;
+    height: auto;
+}
+
+/* Typography */
+h1 {
+    margin: 20px 0 10px;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #f4f4f4;
+}
+
+h2 {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+p {
+    margin-bottom: 1.5em;
+    font-size: 1.05em;
+    color: #cccccc;
+}
+
+.meta-details {
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9em;
+}
+
+.separator {
+    margin: 0 8px;
+    color: var(--border-color);
+}
+
+/* --- COLLAPSIBLE SECTIONS (ACCORDION) --- */
+details {
+    margin-bottom: 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+summary {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    list-style: none;
+    transition: all 0.3s ease;
+    user-select: none;
+    color: var(--text-main);
+    padding: 25px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* The Plus (+) Icon */
+summary::after {
+    content: '+'; 
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Hover Effect */
+summary:hover {
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+summary:hover::after {
+    color: #fff;
+}
+
+/* Active State */
+details[open] summary {
+    color: var(--accent);
+}
+
+details[open] summary::after {
+    content: '-';
+    color: var(--accent);
+}
+
+.dropdown-content {
+    padding: 0 10px 30px 10px;
+}
+
+.dropdown-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    animation: slideDown 0.4s ease-out;
+}
+
+.center-content {
+    text-align: center;
+}
+
+.feature-list {
+    display: inline-block;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    color: #ccc;
+}
+
+.feature-list li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.feature-list li::before {
+    content: "•";
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- FORM STYLING --- */
+.signup-section {
+    margin: 60px 0;
+    padding: 40px 30px;
+    background: #0a0a0a; /* Subtle differentiation from body bg */
+    border: 1px solid #111;
+    border-radius: 4px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Minimalist Inputs */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333; /* Minimal underline */
+    color: #fff;
+    font-family: inherit; 
+    font-size: 16px; 
+    border-radius: 0; /* Remove rounded corners for cleaner look */
+    transition: border-color 0.3s ease;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Focus State */
+input:focus,
+textarea:focus {
+    outline: none;
+    border-bottom-color: var(--text-main);
+    background: transparent;
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: #444;
+    font-weight: 300;
+}
+
+/* --- THE PROMINENT CHECKBOX --- */
+.checkbox-group {
+    text-align: left;
+    margin: 40px 0 20px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05); /* Highlight box */
+    border: 1px solid #222;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+/* Error state for checkbox box */
+.checkbox-group.error-border {
+    border-color: var(--error-color);
+    background: rgba(255, 77, 77, 0.05);
+}
+
+.custom-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 40px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #ddd;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* The actual box square */
+.checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border: 1px solid #666;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+/* Checkbox Hover */
+.custom-checkbox:hover input ~ .checkmark {
+    border-color: #fff;
+}
+
+/* Checked State */
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Check mark icon */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid #000; 
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.label-text {
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* The Link inside the label */
+.label-text a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.3s;
+}
+
+.label-text a:hover {
+    color: #fff;
+}
+
+/* --- ERROR MESSAGE --- */
+.error-message {
+    display: none; /* Hidden by default */
+    color: var(--error-color);
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    background-color: #f4f4f4;
+    color: #000;
+    border: none;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--accent);
+    transform: translateY(-2px); /* Slight lift */
+    box-shadow: 0 5px 15px rgba(147, 189, 164, 0.2);
+}
+
+.hidden {
+    display: none;
+}
+
+#thank-you-message {
+    padding: 60px 0;
+    animation: fadeIn 0.5s ease;
+}
+
+#thank-you-message h2 {
+    color: var(--accent);
+    margin-top: 0;
+}
+
+/* Footer */
+footer {
+    padding: 40px 0;
+    margin-top: 60px;
+    border-top: 1px solid #111;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.social-links img {
+    width: 24px;
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.social-links img:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 { font-size: 26px; }
+    
+    summary { font-size: 20px; }
+    
+    .signup-section { padding: 30px 20px; }
+}
