@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#050505">
     
     <title>MOVA</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <div class="container">
@@ -94,27 +94,40 @@
                             <script type="text/javascript">
                                 var submitted = false;
                                 
+                                // Function to open House Rules if user clicks the link in checkbox
                                 function openRules() {
                                     const rulesSection = document.getElementById('house-rules-section');
                                     rulesSection.open = true;
                                     rulesSection.scrollIntoView({behavior: "smooth", block: "center"});
                                 }
 
+                                // Validation & Anti-Double-Submit function
                                 function validateForm(event) {
                                     const checkbox = document.getElementById('rules-checkbox');
                                     const errorMsg = document.getElementById('error-msg');
                                     const checkboxContainer = document.querySelector('.checkbox-group');
+                                    const submitBtn = document.querySelector('.submit-btn'); // Select the button
 
+                                    // 1. Check Rules Checkbox
                                     if (!checkbox.checked) {
                                         event.preventDefault(); 
                                         errorMsg.style.display = 'block'; 
                                         checkboxContainer.classList.add('error-border'); 
+                                        
+                                        // Shake animation
                                         checkboxContainer.style.animation = "shake 0.5s";
                                         setTimeout(() => checkboxContainer.style.animation = "none", 500);
+                                        
                                         return false;
                                     }
                                     
+                                    // 2. If Valid: Disable button to prevent double-clicks
                                     submitted = true;
+                                    submitBtn.innerHTML = "SENDING...";
+                                    submitBtn.disabled = true; 
+                                    submitBtn.style.opacity = "0.7";
+                                    submitBtn.style.cursor = "not-allowed";
+
                                     return true;
                                 }
                             </script>
@@ -129,19 +142,19 @@
                                 onsubmit="return validateForm(event);">
 
                                 <div class="form-group">
-                                    <input type="email" name="entry.623637060" placeholder="Your Email address" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <input type="text" name="entry.358228535" placeholder="Instagram handle (or link to other social media)">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <input type="text" name="entry.999373531" placeholder="Email addres of the person who invited you (if applicable)">
+                                    <input type="email" name="entry.623637060" placeholder="Your Email address" required autocomplete="email">
                                 </div>
 
                                 <div class="form-group">
-                                    <textarea name="entry.2073387884" rows="5" placeholder="Describe yourself and your reasons to attend" required></textarea>
+                                    <textarea name="entry.2073387884" rows="5" placeholder="Describe yourself and your reasons to attend" required autocomplete="off"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="entry.358228535" placeholder="Instagram handle (or link to other social media)" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="entry.999373531" placeholder="Email addres of the person who invited you (if applicable)" autocomplete="off">
                                 </div>
 
                                 <div class="checkbox-group">
@@ -162,10 +175,8 @@
                             </form>
 
                             <div id="thank-you-message" style="display:none;">
-                                <h2>Succesfully requested an invitation</h2>
-                                <p>You will receive an email confirmation.
-                                Please check your spam folder.
-                                </p>
+                                <h2>Thank you</h2>
+                                <p>The location will be sent to your inbox.</p>
                             </div>
                         </section>
                     </div>
