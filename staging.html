@@ -148,11 +148,11 @@
                             </form>
 
                             <div id="thank-you-message" style="display:none;">
-                                <h2>Thank you</h2>
-                                <p>The location will be sent to your inbox.</p>
+                                <h2 style="color: #93bda4; font-size: 1.15em; margin-bottom: 20px;">SUCCESSFULLY REQUESTED AN INVITATION</h2>
+                                <p>You will receive an email confirmation. Please check your spam folder.</p>
                             </div>
 
-                           <script type="text/javascript">
+                            <script type="text/javascript">
                                 // Time lock against bots
                                 const loadTime = new Date().getTime();
 
@@ -200,11 +200,11 @@
                                     submitBtn.style.opacity = "0.7";
                                     submitBtn.style.cursor = "not-allowed";
 
-                                    // 5. PACKAGE DATA FOR GOOGLE
+                                    // 5. PACKAGE DATA FOR GOOGLE (Fixes 400 Error)
                                     const formData = new FormData(form);
                                     const urlEncodedData = new URLSearchParams();
 
-                                    // Convert data to the exact format Google expects & strip the honeypot
+                                    // Convert data to exact format Google expects & strip the honeypot
                                     for (const [key, value] of formData) {
                                         if (key !== 'website_hp') {
                                             urlEncodedData.append(key, value);
@@ -218,12 +218,13 @@
                                         body: urlEncodedData // Sending URL Encoded data instead of raw FormData
                                     })
                                     .then(() => {
-                                        // ACTUAL SUCCESS
+                                        // 7. ACTUAL SUCCESS
                                         form.style.display = 'none';
+                                        document.querySelector('.form-header').style.display = 'none';
                                         document.getElementById('thank-you-message').style.display = 'block';
                                     })
                                     .catch((error) => {
-                                        // ACTUAL FAILURE
+                                        // 8. ACTUAL FAILURE
                                         console.error('Submission failed:', error);
                                         errorMsg.innerHTML = "Network connection failed. Please try again.";
                                         errorMsg.style.display = 'block';
