@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <meta name="theme-color" content="#050505">
+    
+    <title>MOVA</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+    
+    <style>
+        /* Hide the honeypot field completely from human view */
+        .hp-field {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 0;
+            width: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <a href="https://instagram.com/mova_amsterdam" class="logo-link">
+                    <img src="images/full-logo-white.png" alt="Mova Logo">
+                </a>
+            </div>
+        </header>
+
+        <main>
+            <div class="info-block">
+                <h1>07 03 26</h1>
+                <div class="meta-details">
+                    <span>21:00 - 08:00</span>
+                    <span class="separator">|</span>
+                    <span> Amsterdam</span>
+                </div>
+            </div>
+
+            <section class="intro">
+                <p>MOVA is a gathering of like-minded individuals who are searching for a space to dance, meet & play. All genders and sexualities are welcome.</p>
+            </section>
+
+            <section class="visuals">
+                
+                <details>
+                    <summary>Information</summary>
+                    <div class="dropdown-content center-content">
+                        <ul class="feature-list">
+                            <li>Invite-only</li>
+                            <li>Secret location</li>
+                            <li>Door sale only</li>
+                            <li>Two dance floors</li>
+                            <li>Extended sets</li>
+                            <li>Art Exhibitions</li>
+                            <li>Dressing room with lockers</li>
+                            <li>Play Area</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details id="house-rules-section">
+                    <summary>House Rules</summary>
+                    <div class="dropdown-content">
+                        <img src="images/House Rules_email_1_transparent.png" alt="House Rules">
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Consent Rules</summary>
+                    <div class="dropdown-content">
+                        <img src="images/consent_rules.png" alt="Consent Rules">
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Dress Code</summary>
+                    <div class="dropdown-content">
+                        <img src="images/Dress Code_transparent.png" alt="Dress Code">
+                    </div>
+                </details>
+
+                <details open>
+                    <summary>
+                        <div class="header-wrapper">
+                            Invitation 
+                            <span class="rsvp-badge status-open">RSVP: Open</span>
+                        </div>
+                    </summary>
+                    
+                    <div class="dropdown-content">
+                        
+                        <section class="signup-section">
+                            
+                            <div class="form-header">
+                                Request an invitation by filling out the form below:
+                            </div>
+
+                            <form 
+                                action="https://docs.google.com/forms/d/e/1FAIpQLScfFvfX1t-asI_ftOuOHeLf-lU3tnH9V-OPh97qrmDFyQv8-w/formResponse" 
+                                method="post" 
+                                id="mova-form">
+
+                                <div class="hp-field">
+                                    <label for="website_hp">Website</label>
+                                    <input type="text" id="website_hp" name="website_hp" autocomplete="off" tabindex="-1">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" name="entry.623637060" placeholder="Your Email address" required autocomplete="email">
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea name="entry.2073387884" rows="5" placeholder="Describe yourself and your reasons to attend" required autocomplete="off"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="entry.358228535" placeholder="Instagram handle (or link to other social media)" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" name="entry.999373531" placeholder="Email addres of the person who invited you (if applicable)" autocomplete="off">
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" id="rules-checkbox" name="entry.712444129" value="I have read the house rules and will adhere to these during the event">
+                                        <span class="checkmark"></span>
+                                        <span class="label-text">
+                                            I have read the <a href="#house-rules-section" onclick="openRules()">house rules</a> and will adhere to these during the event
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div id="error-msg" class="error-message">
+                                    Make sure to have read ALL the house rules and confirm.
+                                </div>
+
+                                <button type="submit" id="submit-btn" class="submit-btn">Submit</button>
+                            </form>
+
+                            <div id="thank-you-message" style="display:none;">
+                                <h2>Thank you</h2>
+                                <p>The location will be sent to your inbox.</p>
+                            </div>
+
+                            <script type="text/javascript">
+                                // Time lock against bots
+                                const loadTime = new Date().getTime();
+
+                                function openRules() {
+                                    const rulesSection = document.getElementById('house-rules-section');
+                                    rulesSection.open = true;
+                                    rulesSection.scrollIntoView({behavior: "smooth", block: "center"});
+                                }
+
+                                const form = document.getElementById('mova-form');
+                                
+                                form.addEventListener('submit', function(event) {
+                                    // 1. IMMEDIATELY STOP THE BROWSER NATIVE SUBMIT (Fixes double-submits)
+                                    event.preventDefault(); 
+
+                                    const checkbox = document.getElementById('rules-checkbox');
+                                    const errorMsg = document.getElementById('error-msg');
+                                    const checkboxContainer = document.querySelector('.checkbox-group');
+                                    const submitBtn = document.getElementById('submit-btn');
+                                    const honeypot = document.getElementById('website_hp');
+
+                                    // Clear any previous error messages
+                                    errorMsg.style.display = 'none';
+                                    checkboxContainer.classList.remove('error-border');
+
+                                    // 2. BOT CHECK: Honeypot & Speed
+                                    if (honeypot.value !== "" || (new Date().getTime() - loadTime) < 4000) {
+                                        console.log("Bot blocked.");
+                                        // Fail silently to confuse the bot
+                                        return false; 
+                                    }
+
+                                    // 3. HUMAN CHECK: Rules Checkbox
+                                    if (!checkbox.checked) {
+                                        errorMsg.innerHTML = "Make sure to have read ALL the house rules and confirm.";
+                                        errorMsg.style.display = 'block'; 
+                                        checkboxContainer.classList.add('error-border'); 
+                                        checkboxContainer.style.animation = "shake 0.5s";
+                                        setTimeout(() => checkboxContainer.style.animation = "none", 500);
+                                        return false;
+                                    }
+
+                                    // 4. LOCK THE BUTTON
+                                    submitBtn.innerHTML = "SENDING...";
+                                    submitBtn.disabled = true; 
+                                    submitBtn.style.opacity = "0.7";
+                                    submitBtn.style.cursor = "not-allowed";
+
+                                    // 5. SEND DATA SECURELY IN BACKGROUND
+                                    const formData = new FormData(form);
+
+                                    fetch(form.action, {
+                                        method: 'POST',
+                                        mode: 'no-cors', // Required to bypass Google Form's strict security
+                                        body: formData
+                                    })
+                                    .then(() => {
+                                        // 6. ACTUAL SUCCESS (Network request completed)
+                                        form.style.display = 'none';
+                                        document.getElementById('thank-you-message').style.display = 'block';
+                                    })
+                                    .catch((error) => {
+                                        // 7. ACTUAL FAILURE (e.g., User lost internet connection)
+                                        console.error('Submission failed:', error);
+                                        errorMsg.innerHTML = "Network connection failed. Please check your connection and try again.";
+                                        errorMsg.style.display = 'block';
+                                        
+                                        // Re-enable button so they can try again
+                                        submitBtn.innerHTML = "SUBMIT";
+                                        submitBtn.disabled = false;
+                                        submitBtn.style.opacity = "1";
+                                        submitBtn.style.cursor = "pointer";
+                                    });
+                                });
+                            </script>
+                        </section>
+                    </div>
+                </details>
+
+            </section>
+            
+        </main>
+
+        <footer>
+            <div class="social-links">
+                <a href="https://soundcloud.com/mova-tila"><img src="images/soundcloud-white-icon.png" alt="Soundcloud"></a>
+                <a href="https://instagram.com/mova_amsterdam"><img src="images/instagram-white-icon.png" alt="Instagram"></a>
+                <a href="mailto:info@movatila.com"><img src="images/round-information-outline-white-icon.png" alt="Email"></a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
