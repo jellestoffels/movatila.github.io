@@ -152,7 +152,7 @@
                                 <p>The location will be sent to your inbox.</p>
                             </div>
 
-                            <script type="text/javascript">
+                           <script type="text/javascript">
                                 // Time lock against bots
                                 const loadTime = new Date().getTime();
 
@@ -165,7 +165,7 @@
                                 const form = document.getElementById('mova-form');
                                 
                                 form.addEventListener('submit', function(event) {
-                                    // 1. IMMEDIATELY STOP THE BROWSER NATIVE SUBMIT (Fixes double-submits)
+                                    // 1. IMMEDIATELY STOP THE BROWSER NATIVE SUBMIT
                                     event.preventDefault(); 
 
                                     const checkbox = document.getElementById('rules-checkbox');
@@ -181,7 +181,6 @@
                                     // 2. BOT CHECK: Honeypot & Speed
                                     if (honeypot.value !== "" || (new Date().getTime() - loadTime) < 4000) {
                                         console.log("Bot blocked.");
-                                        // Fail silently to confuse the bot
                                         return false; 
                                     }
 
@@ -201,23 +200,32 @@
                                     submitBtn.style.opacity = "0.7";
                                     submitBtn.style.cursor = "not-allowed";
 
-                                    // 5. SEND DATA SECURELY IN BACKGROUND
+                                    // 5. PACKAGE DATA FOR GOOGLE
                                     const formData = new FormData(form);
+                                    const urlEncodedData = new URLSearchParams();
 
+                                    // Convert data to the exact format Google expects & strip the honeypot
+                                    for (const [key, value] of formData) {
+                                        if (key !== 'website_hp') {
+                                            urlEncodedData.append(key, value);
+                                        }
+                                    }
+
+                                    // 6. SEND DATA SECURELY IN BACKGROUND
                                     fetch(form.action, {
                                         method: 'POST',
                                         mode: 'no-cors', // Required to bypass Google Form's strict security
-                                        body: formData
+                                        body: urlEncodedData // Sending URL Encoded data instead of raw FormData
                                     })
                                     .then(() => {
-                                        // 6. ACTUAL SUCCESS (Network request completed)
+                                        // ACTUAL SUCCESS
                                         form.style.display = 'none';
                                         document.getElementById('thank-you-message').style.display = 'block';
                                     })
                                     .catch((error) => {
-                                        // 7. ACTUAL FAILURE (e.g., User lost internet connection)
+                                        // ACTUAL FAILURE
                                         console.error('Submission failed:', error);
-                                        errorMsg.innerHTML = "Network connection failed. Please check your connection and try again.";
+                                        errorMsg.innerHTML = "Network connection failed. Please try again.";
                                         errorMsg.style.display = 'block';
                                         
                                         // Re-enable button so they can try again
