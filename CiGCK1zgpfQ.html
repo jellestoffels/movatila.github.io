@@ -256,21 +256,17 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Parse the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        
-        // Get the specific email passed in the URL
-        const referralEmail = urlParams.get('entry.999373531');
-        
-        // If an email exists in the URL, inject it into the correct input field
-        if (referralEmail) {
-            const referralInput = document.querySelector('input[name="entry.999373531"]');
-            if (referralInput) {
-                referralInput.value = referralEmail;
-                referralInput.readOnly = true; 
+        for (const [key, value] of urlParams) {
+            if (key.startsWith('entry.')) {
+                const targetInput = document.querySelector(`[name="${key}"]`);
+                if (targetInput) {
+                    targetInput.value = value;
+                }
             }
         }
     });
 </script>
 </body>
 </html>
+
