@@ -253,5 +253,20 @@
             </div>
         </footer>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        for (const [key, value] of urlParams) {
+            if (key.startsWith('entry.')) {
+                const targetInput = document.querySelector(`[name="${key}"]`);
+                if (targetInput) {
+                    targetInput.value = value;
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
+
