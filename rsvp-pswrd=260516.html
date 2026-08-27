@@ -152,98 +152,96 @@
                                 <p>You will receive an email confirmation. Please check your spam folder.</p>
                             </div>
 
-                           <script type="text/javascript">
-                                const loadTime = new Date().getTime();
+                          <script type="text/javascript">
+    const loadTime = new Date().getTime();
 
-                                function openRules() {
-                                    const rulesSection = document.getElementById('house-rules-section');
-                                    rulesSection.open = true;
-                                    rulesSection.scrollIntoView({behavior: "smooth", block: "center"});
-                                }
+    function openRules() {
+        const rulesSection = document.getElementById('house-rules-section');
+        rulesSection.open = true;
+        rulesSection.scrollIntoView({behavior: "smooth", block: "center"});
+    }
 
-                                const form = document.getElementById('mova-form');
-                                
-                                form.addEventListener('submit', function(event) {
-                                    event.preventDefault(); 
+    const form = document.getElementById('mova-form');
+    
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
 
-                                    const checkbox = document.getElementById('rules-checkbox');
-                                    const errorMsg = document.getElementById('error-msg');
-                                    const checkboxContainer = document.querySelector('.checkbox-group');
-                                    const submitBtn = document.getElementById('submit-btn');
-                                    const honeypot = document.getElementById('website_hp');
-                                    
-                                    const desc = document.querySelector('textarea[name="entry.2073387884"]').value;
-                                    const social = document.querySelector('input[name="entry.358228535"]').value;
+        const checkbox = document.getElementById('rules-checkbox');
+        const errorMsg = document.getElementById('error-msg');
+        const checkboxContainer = document.querySelector('.checkbox-group');
+        const submitBtn = document.getElementById('submit-btn');
+        const honeypot = document.getElementById('website_hp');
+        
+        const descInput = document.querySelector('[name="entry.2073387884"]');
+        const desc = descInput ? descInput.value.toLowerCase() : "";
 
-                                    errorMsg.style.display = 'none';
-                                    checkboxContainer.classList.remove('error-border');
+        const socialInput = document.querySelector('[name="entry.358228535"]');
+        const social = socialInput ? socialInput.value : "";
 
-                                    if (localStorage.getItem('rsvp_submitted')) {
-                                        return false;
-                                    }
+        errorMsg.style.display = 'none';
+        checkboxContainer.classList.remove('error-border');
 
-                                    if (honeypot.value !== "" || (new Date().getTime() - loadTime) < 4000) {
-                                        return false; 
-                                    }
+        if (honeypot.value !== "" || (new Date().getTime() - loadTime) < 4000) {
+            return false; 
+        }
 
-                                    if (/^Re:/i.test(social) || /^New/i.test(social)) {
-                                        return false;
-                                    }
+        const spamKeywords = ["harga", "price", "цена", "գինը", "ფასი", "intengo", "τιμή", "phraghas", "cenu", "kaina"];
+        const containsSpam = spamKeywords.some(keyword => desc.includes(keyword));
+        const containsSpamSocial = /^Re:/i.test(social) || /^New/i.test(social);
+        
+        if (containsSpam || containsSpamSocial) {
+            errorMsg.innerHTML = "The message was not human enough.";
+            errorMsg.style.display = 'block';
+            return false;
+        }
 
-                                    const spamKeywords = ["harga", "price", "цена", "գինը", "ფასი", "intengo", "τιμή", "phraghas"];
-                                    const containsSpam = spamKeywords.some(keyword => desc.toLowerCase().includes(keyword));
-                                    const nonLatinMatches = desc.match(/[^\u0000-\u024F\u1E00-\u1EFF\u2000-\u206F\s\p{P}]/gu);
-                                    
-                                    if (containsSpam || (nonLatinMatches && nonLatinMatches.length > 5)) {
-                                        return false;
-                                    }
+        if (!checkbox.checked) {
+            errorMsg.innerHTML = "Make sure to have read ALL the house rules and confirm.";
+            errorMsg.style.display = 'block'; 
+            checkboxContainer.classList.add('error-border'); 
+            checkboxContainer.style.animation = "shake 0.5s";
+            setTimeout(() => checkboxContainer.style.animation = "none", 500);
+            return false;
+        }
 
-                                    if (!checkbox.checked) {
-                                        errorMsg.innerHTML = "Make sure to have read ALL the house rules and confirm.";
-                                        errorMsg.style.display = 'block'; 
-                                        checkboxContainer.classList.add('error-border'); 
-                                        checkboxContainer.style.animation = "shake 0.5s";
-                                        setTimeout(() => checkboxContainer.style.animation = "none", 500);
-                                        return false;
-                                    }
+        submitBtn.innerHTML = "SENDING...";
+        submitBtn.disabled = true; 
+        submitBtn.style.opacity = "0.7";
+        submitBtn.style.cursor = "not-allowed";
 
-                                    submitBtn.innerHTML = "SENDING...";
-                                    submitBtn.disabled = true; 
-                                    submitBtn.style.opacity = "0.7";
-                                    submitBtn.style.cursor = "not-allowed";
+        const formData = new FormData(form);
+        const urlEncodedData = new URLSearchParams();
 
-                                    const formData = new FormData(form);
-                                    const urlEncodedData = new URLSearchParams();
+        for (const [key, value] of formData) {
+            if (key !== 'website_hp') {
+                urlEncodedData.append(key, value);
+            }
+        }
 
-                                    for (const [key, value] of formData) {
-                                        if (key !== 'website_hp') {
-                                            urlEncodedData.append(key, value);
-                                        }
-                                    }
-
-                                    fetch(form.action, {
-                                        method: 'POST',
-                                        mode: 'no-cors',
-                                        body: urlEncodedData
-                                    })
-                                    .then(() => {
-                                        localStorage.setItem('rsvp_submitted', 'true');
-                                        form.style.display = 'none';
-                                        document.querySelector('.form-header').style.display = 'none';
-                                        document.getElementById('thank-you-message').style.display = 'block';
-                                    })
-                                    .catch((error) => {
-                                        console.error('Submission failed:', error);
-                                        errorMsg.innerHTML = "Network connection failed. Please try again.";
-                                        errorMsg.style.display = 'block';
-                                        
-                                        submitBtn.innerHTML = "SUBMIT";
-                                        submitBtn.disabled = false;
-                                        submitBtn.style.opacity = "1";
-                                        submitBtn.style.cursor = "pointer";
-                                    });
-                                });
-                            </script>
+        fetch(form.action, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: urlEncodedData
+        })
+        .then(() => {
+            form.style.display = 'none';
+            if (document.querySelector('.form-header')) {
+                document.querySelector('.form-header').style.display = 'none';
+            }
+            document.getElementById('thank-you-message').style.display = 'block';
+        })
+        .catch((error) => {
+            console.error('Submission failed:', error);
+            errorMsg.innerHTML = "Network connection failed. Please try again.";
+            errorMsg.style.display = 'block';
+            
+            submitBtn.innerHTML = "SUBMIT";
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            submitBtn.style.cursor = "pointer";
+        });
+    });
+</script>
                         </section>
                     </div>
                 </details>
