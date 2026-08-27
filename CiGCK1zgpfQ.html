@@ -153,7 +153,6 @@
                             </div>
 
                             <script type="text/javascript">
-                                // Time lock against bots
                                 const loadTime = new Date().getTime();
 
                                 function openRules() {
@@ -165,7 +164,6 @@
                                 const form = document.getElementById('mova-form');
                                 
                                 form.addEventListener('submit', function(event) {
-                                    // 1. IMMEDIATELY STOP THE BROWSER NATIVE SUBMIT
                                     event.preventDefault(); 
 
                                     const checkbox = document.getElementById('rules-checkbox');
@@ -173,18 +171,33 @@
                                     const checkboxContainer = document.querySelector('.checkbox-group');
                                     const submitBtn = document.getElementById('submit-btn');
                                     const honeypot = document.getElementById('website_hp');
+                                    
+                                    const desc = document.querySelector('textarea[name="entry.2073387884"]').value;
+                                    const social = document.querySelector('input[name="entry.358228535"]').value;
 
-                                    // Clear any previous error messages
                                     errorMsg.style.display = 'none';
                                     checkboxContainer.classList.remove('error-border');
 
-                                    // 2. BOT CHECK: Honeypot & Speed
+                                    if (localStorage.getItem('rsvp_submitted')) {
+                                        return false;
+                                    }
+
                                     if (honeypot.value !== "" || (new Date().getTime() - loadTime) < 4000) {
-                                        console.log("Bot blocked.");
                                         return false; 
                                     }
 
-                                    // 3. HUMAN CHECK: Rules Checkbox
+                                    if (/^Re:/i.test(social) || /^New/i.test(social)) {
+                                        return false;
+                                    }
+
+                                    const spamKeywords = ["harga", "price", "цена", "գինը", "ფასი", "intengo", "τιμή", "phraghas"];
+                                    const containsSpam = spamKeywords.some(keyword => desc.toLowerCase().includes(keyword));
+                                    const nonLatinMatches = desc.match(/[^\u0000-\u024F\u1E00-\u1EFF\u2000-\u206F\s\p{P}]/gu);
+                                    
+                                    if (containsSpam || (nonLatinMatches && nonLatinMatches.length > 5)) {
+                                        return false;
+                                    }
+
                                     if (!checkbox.checked) {
                                         errorMsg.innerHTML = "Make sure to have read ALL the house rules and confirm.";
                                         errorMsg.style.display = 'block'; 
@@ -194,42 +207,36 @@
                                         return false;
                                     }
 
-                                    // 4. LOCK THE BUTTON
                                     submitBtn.innerHTML = "SENDING...";
                                     submitBtn.disabled = true; 
                                     submitBtn.style.opacity = "0.7";
                                     submitBtn.style.cursor = "not-allowed";
 
-                                    // 5. PACKAGE DATA FOR GOOGLE (Fixes 400 Error)
                                     const formData = new FormData(form);
                                     const urlEncodedData = new URLSearchParams();
 
-                                    // Convert data to exact format Google expects & strip the honeypot
                                     for (const [key, value] of formData) {
                                         if (key !== 'website_hp') {
                                             urlEncodedData.append(key, value);
                                         }
                                     }
 
-                                    // 6. SEND DATA SECURELY IN BACKGROUND
                                     fetch(form.action, {
                                         method: 'POST',
-                                        mode: 'no-cors', // Required to bypass Google Form's strict security
-                                        body: urlEncodedData // Sending URL Encoded data instead of raw FormData
+                                        mode: 'no-cors',
+                                        body: urlEncodedData
                                     })
                                     .then(() => {
-                                        // 7. ACTUAL SUCCESS
+                                        localStorage.setItem('rsvp_submitted', 'true');
                                         form.style.display = 'none';
                                         document.querySelector('.form-header').style.display = 'none';
                                         document.getElementById('thank-you-message').style.display = 'block';
                                     })
                                     .catch((error) => {
-                                        // 8. ACTUAL FAILURE
                                         console.error('Submission failed:', error);
                                         errorMsg.innerHTML = "Network connection failed. Please try again.";
                                         errorMsg.style.display = 'block';
                                         
-                                        // Re-enable button so they can try again
                                         submitBtn.innerHTML = "SUBMIT";
                                         submitBtn.disabled = false;
                                         submitBtn.style.opacity = "1";
