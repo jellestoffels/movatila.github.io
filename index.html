@@ -152,7 +152,7 @@
                                 <p>You will receive an email confirmation. Please check your spam folder.</p>
                             </div>
 
-                            <script type="text/javascript">
+                       <script type="text/javascript">
     const loadTime = new Date().getTime();
 
     function openRules() {
@@ -173,7 +173,7 @@
         const honeypot = document.getElementById('website_hp');
         
         const descInput = document.querySelector('[name="entry.2073387884"]');
-        const desc = descInput ? descInput.value.toLowerCase() : "";
+        const desc = descInput ? descInput.value.trim() : "";
 
         const socialInput = document.querySelector('[name="entry.358228535"]');
         const social = socialInput ? socialInput.value : "";
@@ -186,10 +186,13 @@
         }
 
         const spamKeywords = ["harga", "price", "цена", "գինը", "ფასი", "intengo", "τιμή", "phraghas", "cenu", "kaina"];
-        const containsSpam = spamKeywords.some(keyword => desc.includes(keyword));
+        const containsSpam = spamKeywords.some(keyword => desc.toLowerCase().includes(keyword));
         const containsSpamSocial = /^Re:/i.test(social) || /^New/i.test(social);
         
-        if (containsSpam || containsSpamSocial) {
+        const spamPattern = /^[\p{L}\s]+,\s*[\p{L}\s]+\.$/u;
+        const failsLengthRequirement = desc.length > 0 && desc.length < 56;
+        
+        if (containsSpam || containsSpamSocial || spamPattern.test(desc) || failsLengthRequirement) {
             errorMsg.innerHTML = "The message was not human enough.";
             errorMsg.style.display = 'block';
             return false;
