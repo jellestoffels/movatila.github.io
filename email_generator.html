@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOVA Email Generator</title>
+  <style>
+    :root {
+      --bg: #0e1004;
+      --card-bg: #141708;
+      --border: #2a2e16;
+      --accent: #93bda4;
+      --text: #e6e6e6;
+      --text-muted: #888888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .editor-pane {
+      width: 45%;
+      min-width: 420px;
+      padding: 24px;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .preview-pane {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #050602;
+    }
+
+    h1 {
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .mode-selector {
+      display: flex;
+      gap: 8px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 2px;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active {
+      background: #1a1c0d;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    fieldset {
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      padding: 16px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    legend {
+      padding: 0 8px;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input, textarea {
+      background: #090a03;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .action-btn {
+      background: #1a1c0d;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 10px 20px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background: var(--accent);
+      color: #0e1004;
+    }
+
+    iframe {
+      width: 100%;
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: #0e1004;
+    }
+
+    #copy-status {
+      font-size: 12px;
+      color: var(--accent);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="editor-pane">
+    <div>
+      <h1>MOVA Email Generator</h1>
+      <p style="font-size: 12px; color: var(--text-muted);">Select format and adjust variables to generate Mailchimp markup.</p>
+      <div class="mode-selector">
+        <button type="button" class="mode-btn active" id="btn-mode-invitation">Invitation</button>
+        <button type="button" class="mode-btn" id="btn-mode-location">Location</button>
+      </div>
+    </div>
+
+    <fieldset>
+      <legend>Header Asset</legend>
+      <div class="field-group">
+        <label>Banner Image URL</label>
+        <input type="text" id="header_img_src" value="https://movatila.com/images/full-logo-white.png">
+      </div>
+      <div class="field-group">
+        <label>Banner Click URL</label>
+        <input type="text" id="header_link" value="https://www.instagram.com/mova_amsterdam/">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Date & Time</legend>
+      <div class="field-group">
+        <label>Date String</label>
+        <input type="text" id="event_date" value="21 11 26">
+      </div>
+      <div class="field-group">
+        <label>Day of Week</label>
+        <input type="text" id="event_day" value="Saturday">
+      </div>
+      <div class="field-group">
+        <label>Time String</label>
+        <input type="text" id="event_time" value="21:00 – 07:00">
+      </div>
+      <div class="field-group" id="group-cal-url">
+        <label>Calendar Button URL (Invitation Mode)</label>
+        <input type="text" id="cal_url" value="https://calendar.google.com/calendar/render?action=TEMPLATE&text=MOVA&dates=20261121T200000Z/20261122T060000Z&location=Amsterdam&ctz=Europe/Amsterdam">
+      </div>
+    </fieldset>
+
+    <fieldset id="section-location-details">
+      <legend>Venue & Address</legend>
+      <div class="field-group">
+        <label>Address Name / Text</label>
+        <input type="text" id="venue_name" value="Isolatorweg 17, Amsterdam">
+      </div>
+      <div class="field-group">
+        <label>Google Maps URL</label>
+        <input type="text" id="venue_map_url" value="https://maps.app.goo.gl/G8gco4TwL1tWLgo36">
+      </div>
+      <div class="field-group">
+        <label>Venue Features (one per line)</label>
+        <textarea id="loc_features" rows="4">Two Dancefloors&#10;Outdoor Smoking Area&#10;Wheelchair accessible&#10;Covered queue in case of rain</textarea>
+      </div>
+      <div class="field-group" id="group-floorplan">
+        <label>Floorplan Image URL (Location Mode)</label>
+        <input type="text" id="img_floorplan" value="https://movatila.com/images/floorplan_transparent_part_16.png">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Concept</legend>
+      <div class="field-group">
+        <label>Concept Heading</label>
+        <input type="text" id="concept_title" value="MOVA">
+      </div>
+      <div class="field-group">
+        <label>Concept Description</label>
+        <textarea id="concept_desc" rows="2">A new location at a new address. Walking distance from a different Amsterdam-West metro station.</textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Stage 1</legend>
+      <div class="field-group">
+        <label>Stage Name</label>
+        <input type="text" id="s1_name" value="Beton">
+      </div>
+      <div class="field-group">
+        <label>Artists (Format: Time | Name | URL or Name | URL)</label>
+        <textarea id="s1_artists" rows="4">21:00 | François X | https://www.instagram.com/francois_x/
+00:00 | Jasmin | https://www.instagram.com/jasminhoek/
+03:00 | Bastienne | https://www.instagram.com/bastienne_f/
+05:00 | Cool Tiger (live) | https://www.instagram.com/cooltigermusic/</textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Stage 2</legend>
+      <div class="field-group">
+        <label>Stage Name</label>
+        <input type="text" id="s2_name" value="Multiplex">
+      </div>
+      <div class="field-group">
+        <label>Artists (Format: Time | Name | URL or Name | URL)</label>
+        <textarea id="s2_artists" rows="4">21:00 | dirtydms | https://www.instagram.com/dirty.dms/
+00:00 | Wispelturig | https://www.instagram.com/wispelturig_/
+03:00 | Gemma Maree | https://www.instagram.com/gemma.maree/</textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>QR Asset</legend>
+      <div class="field-group">
+        <label>QR Base URL Endpoint</label>
+        <input type="text" id="qr_base_url" value="https://quickchart.io/qr?text=https://script.google.com/macros/s/AKfycbx1mXfJgf6hW-RM8Dpy8tDNwmkJwuT--7AyQ7co5fs1NJcD_Fs96B0EOc0cKMT4VuXsoQ/exec?qr=*|EMAIL|*">
+      </div>
+    </fieldset>
+
+    <fieldset id="section-merch-location">
+      <legend>Merch Asset (Location Mode)</legend>
+      <div class="field-group">
+        <label>T-Shirt Asset URL</label>
+        <input type="text" id="img_tshirt" value="https://movatila.com/images/mova_t-shirt_cxema.png">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Guidelines & Referral Assets</legend>
+      <div class="field-group">
+        <label>Sign Up URL</label>
+        <input type="text" id="signup_url" value="http://movatila.com/">
+      </div>
+      <div class="field-group">
+        <label>House Rules Image URL</label>
+        <input type="text" id="img_house" value="https://movatila.com/images/House%20Rules_email_1_transparent.png">
+      </div>
+      <div class="field-group">
+        <label>Consent Rules Image URL</label>
+        <input type="text" id="img_consent" value="https://movatila.com/images/consent_rules.png">
+      </div>
+      <div class="field-group">
+        <label>Dress Code Image URL</label>
+        <input type="text" id="img_dress" value="https://movatila.com/images/Dress%20Code_transparent.png">
+      </div>
+      <div class="field-group">
+        <label>Referral URL</label>
+        <input type="text" id="referral_url" value="https://movatila.com/index.html?entry.999373531=*|EMAIL|*">
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="preview-pane">
+    <div class="btn-row">
+      <button class="action-btn" id="copy-btn">Copy HTML For Mailchimp</button>
+      <span id="copy-status">Copied to clipboard.</span>
+    </div>
+    <iframe id="preview-frame"></iframe>
+  </div>
+
+  <script>
+    let currentMode = 'invitation';
+
+    const btnInvitation = document.getElementById('btn-mode-invitation');
+    const btnLocation = document.getElementById('btn-mode-location');
+    const groupCalUrl = document.getElementById('group-cal-url');
+    const groupFloorplan = document.getElementById('group-floorplan');
+    const sectionMerchLocation = document.getElementById('section-merch-location');
+
+    function setMode(mode) {
+      currentMode = mode;
+      if (mode === 'invitation') {
+        btnInvitation.classList.add('active');
+        btnLocation.classList.remove('active');
+        groupCalUrl.style.display = 'flex';
+        groupFloorplan.style.display = 'none';
+        sectionMerchLocation.style.display = 'none';
+      } else {
+        btnLocation.classList.add('active');
+        btnInvitation.classList.remove('active');
+        groupCalUrl.style.display = 'none';
+        groupFloorplan.style.display = 'flex';
+        sectionMerchLocation.style.display = 'flex';
+      }
+      updatePreview();
+    }
+
+    btnInvitation.addEventListener('click', () => setMode('invitation'));
+    btnLocation.addEventListener('click', () => setMode('location'));
+
+    function parseArtistLine(line) {
+      const parts = line.split('|').map(p => p.trim());
+      if (parts.length === 1) {
+        return { time: '', name: parts[0], url: '' };
+      }
+      if (parts.length === 2) {
+        if (/^\d{1,2}:\d{2}$/.test(parts[0])) {
+          return { time: parts[0], name: parts[1], url: '' };
+        }
+        return { time: '', name: parts[0], url: parts[1] };
+      }
+      return { time: parts[0], name: parts[1], url: parts[2] || '' };
+    }
+
+    function renderArtistsInvitation(rawText) {
+      return rawText.split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .map(l => {
+          const item = parseArtistLine(l);
+          if (item.url) {
+            return `<div style="font-size: 18px; font-weight: bold; margin-bottom: 2px;"><a href="${item.url}" style="color: #93bda4; text-decoration: underline;">${item.name}</a></div>`;
+          }
+          return `<div style="font-size: 18px; font-weight: bold; margin-bottom: 2px; color: #93bda4;">${item.name}</div>`;
+        }).join('\n');
+    }
+
+    function renderTimetableRows(rawText) {
+      return rawText.split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .map(l => {
+          const item = parseArtistLine(l);
+          const timeDisplay = item.time || '';
+          const nameHtml = item.url
+            ? `<a href="${item.url}" style="color: #93bda4; text-decoration: underline;">${item.name}</a>`
+            : item.name;
+
+          return `<tr>
+  <td style="width: 80px; font-size: 18px;">${timeDisplay}</td>
+  <td style="font-size: 18px; font-weight: bold;">${nameHtml}</td>
+</tr>`;
+        }).join('\n');
+    }
+
+    function renderFeatures(rawText) {
+      return rawText.split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .map(l => `<li style="margin-bottom: 10px;">${l}</li>`)
+        .join('\n\t\t\t\t\t\t');
+    }
+
+    function getInvitationHtml() {
+      const headerImg = document.getElementById('header_img_src').value;
+      const headerLink = document.getElementById('header_link').value;
+      const date = document.getElementById('event_date').value;
+      const day = document.getElementById('event_day').value;
+      const time = document.getElementById('event_time').value;
+      const calUrl = document.getElementById('cal_url').value;
+      const conceptTitle = document.getElementById('concept_title').value;
+      const conceptDesc = document.getElementById('concept_desc').value;
+      const locFeatures = renderFeatures(document.getElementById('loc_features').value);
+      const s1Name = document.getElementById('s1_name').value;
+      const s1Artists = renderArtistsInvitation(document.getElementById('s1_artists').value);
+      const s2Name = document.getElementById('s2_name').value;
+      const s2Artists = renderArtistsInvitation(document.getElementById('s2_artists').value);
+      const qrUrl = document.getElementById('qr_base_url').value;
+      const signupUrl = document.getElementById('signup_url').value;
+      const imgHouse = document.getElementById('img_house').value;
+      const imgConsent = document.getElementById('img_consent').value;
+      const imgDress = document.getElementById('img_dress').value;
+      const refUrl = document.getElementById('referral_url').value;
+
+      return `<style>
+    /* 1. FORCE "LIGHT" SCHEME TO DISABLE AUTO-INVERSION */
+    :root {
+        color-scheme: light;
+        supported-color-schemes: light;
+    }
+    
+    /* 2. FORCE COLORS */
+    .force-text { color: #e6e6e6 !important; }
+    .force-white { color: #ffffff !important; }
+    .force-bg { background-color: #0E1004 !important; }
+    .force-green { color: #93bda4 !important; }
+
+    /* 3. GMAIL SPECIFIC HACK */
+    u + #body a { color: inherit; text-decoration: none; font-size: inherit; font-family: inherit; font-weight: inherit; line-height: inherit; }
+    
+    /* Mobile adjustments */
+    @media only screen and (max-width: 480px) {
+        .mobile-pad { padding-left: 10px !important; padding-right: 10px !important; }
+    }
+</style>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%; max-width: 100%; background-color: #0E1004; background-image: linear-gradient(#0E1004, #0E1004);">
+    <tbody><tr>
+        <td align="center" style="padding: 20px;" class="mobile-pad">
+            
+            <div style="max-width: 600px; margin: 0 auto; font-family: Helvetica, Arial, sans-serif; line-height: 1.6; text-align: center; color: #e6e6e6; background-image: linear-gradient(#0E1004, #0E1004);">
+                
+                <a href="${headerLink}" style="text-decoration: none;"><img src="${headerImg}" alt="MOVA" style="width: 90%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto; border: 0;"></a>
+                <br>
+                
+                <p class="force-white" style="margin: 0 0 5px 0; font-size: 32px; font-weight: bold; color: #ffffff; letter-spacing: 2px;">
+                    ${date}
+                </p>
+                <p class="force-white" style="margin: 0 0 5px 0; font-size: 24px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">
+                    ${day}
+                </p>
+                <p class="force-white" style="margin: 0 0 30px 0; font-size: 21px; font-weight: normal; color: #e6e6e6; letter-spacing: 1px;">
+                    ${time}
+                </p>
+
+                <h3 style="color: #93bda4; font-size: 18px; font-weight: normal; letter-spacing: 1px; margin-bottom: 20px;">
+                    You are invited
+                </h3>
+
+                <p class="force-text" style="margin-bottom: 25px; color: #cccccc; font-size: 15px;">
+                    The location and a personal QR code will be sent one day prior to the event.
+                </p>
+
+                <div style="margin-bottom: 35px;">
+                    <a href="${calUrl}" style="display: inline-block; background-color: #1a1c0d; color: #93bda4; border: 1px solid #93bda4; padding: 10px 20px; border-radius: 3px; text-decoration: none; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: bold;">
+                        Add to Calendar
+                    </a>
+                </div>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    ${conceptTitle}
+                </h2>
+
+                <p class="force-text" style="margin-bottom: 20px; color: #e6e6e6;">
+                    <i>${conceptDesc}</i>
+                </p>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Information
+                </h2>
+
+                <ul class="force-text" style="list-style: disc; padding: 10px 20px; margin: 0; text-align: left; color: #e6e6e6;">
+                    <li style="margin-bottom: 10px;">Invitations can not be transferred to anyone else</li>
+                    <li style="margin-bottom: 10px;">No presale — door sale only</li>
+                    <li style="margin-bottom: 10px;">You may bring a +1 under the following conditions:
+                        <ul style="list-style: disc; padding: 6px 0 0 22px; margin: 8px 0 0 0; font-size: 0.95em; color: #cccccc;">
+                            <li style="margin-bottom: 6px;">They have signed up at <a href="${signupUrl}" style="color: #93bda4; text-decoration: none; border-bottom: 1px solid #93bda4;">movatila.com</a></li>
+                            <li style="margin-bottom: 6px;">They show their personal confirmation email</li>
+                            <li style="margin-bottom: 6px;">Your +1’s behaviour may influence your future invitations</li>
+                        </ul>
+                    </li>
+                </ul>
+                  
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    New Location
+                </h2>
+                  
+                <ul class="force-text" style="list-style: disc; padding: 10px 20px; margin: 0; text-align: left; color: #e6e6e6;">
+                    New Location and address:
+                    <ul style="list-style: disc; padding: 6px 0 0 22px; margin: 8px 0 0 0; font-size: 0.95em; color: #cccccc;">
+                        ${locFeatures}
+                    </ul>
+                </ul>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Line up
+                </h2>
+
+                <div style="font-size: 14px; color: #888888; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">${s1Name}</div>
+
+                ${s1Artists}
+
+                <div style="font-size: 14px; color: #888888; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">${s2Name}</div>
+
+                ${s2Artists}
+
+                <br><br>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    House Rules
+                </h2>
+                <img src="${imgHouse}" alt="House Rules" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Consent Rules
+                </h2>
+                <img src="${imgConsent}" alt="Consent Rules" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Dress Code
+                </h2>
+                <img src="${imgDress}" alt="Dress Code" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Personal Invite Link
+                </h2>
+
+                <p class="force-text" style="margin-bottom: 20px; color: #e6e6e6;">
+                    Invite new guests using your personal link:
+                </p>
+
+                <div style="background-color: #1a1c0d; border: 1px solid #333333; padding: 15px; border-radius: 4px; margin-bottom: 30px; word-break: break-all; text-align: center;">
+                    <a href="${refUrl}" style="color: #526b5c; text-decoration: none; font-family: monospace; font-size: 11px; user-select: all;">
+                        ${refUrl}
+                    </a>
+                </div>
+
+                <div style="background-color: #ffffff; padding: 4px; display: inline-block; border-radius: 3px; margin-top: 10px; margin-bottom: 6px;">
+                    <img src="${qrUrl}" alt="Verification Code" style="display: block; width: 62px; height: 62px; border: 0;">
+                </div>
+
+                <p style="margin: 0 0 20px 0; font-size: 11px; font-weight: bold; letter-spacing: 1.5px; color: #888888; text-transform: uppercase;">
+                    DO NOT SCAN
+                </p>
+
+            </div>
+        </td>
+    </tr>
+</tbody></table>`;
+    }
+
+    function getLocationHtml() {
+      const headerImg = document.getElementById('header_img_src').value;
+      const headerLink = document.getElementById('header_link').value;
+      const date = document.getElementById('event_date').value;
+      const day = document.getElementById('event_day').value;
+      const time = document.getElementById('event_time').value;
+      const qrUrl = document.getElementById('qr_base_url').value;
+      const venueName = document.getElementById('venue_name').value;
+      const venueMapUrl = document.getElementById('venue_map_url').value;
+      const locFeatures = renderFeatures(document.getElementById('loc_features').value);
+      const imgTshirt = document.getElementById('img_tshirt').value;
+      const conceptTitle = document.getElementById('concept_title').value;
+      const conceptDesc = document.getElementById('concept_desc').value;
+      const s1Name = document.getElementById('s1_name').value;
+      const s1Rows = renderTimetableRows(document.getElementById('s1_artists').value);
+      const s2Name = document.getElementById('s2_name').value;
+      const s2Rows = renderTimetableRows(document.getElementById('s2_artists').value);
+      const imgFloorplan = document.getElementById('img_floorplan').value;
+      const imgHouse = document.getElementById('img_house').value;
+      const imgConsent = document.getElementById('img_consent').value;
+      const imgDress = document.getElementById('img_dress').value;
+      const refUrl = document.getElementById('referral_url').value;
+
+      return `<style>
+    /* 1. FORCE "LIGHT" SCHEME TO DISABLE AUTO-INVERSION */
+    :root {
+        color-scheme: light;
+        supported-color-schemes: light;
+    }
+    
+    /* 2. FORCE COLORS */
+    .force-text { color: #e6e6e6 !important; }
+    .force-white { color: #ffffff !important; }
+    .force-bg { background-color: #0E1004 !important; }
+    .force-green { color: #93bda4 !important; }
+
+    /* 3. GMAIL SPECIFIC HACK */
+    u + #body a { color: inherit; text-decoration: none; font-size: inherit; font-family: inherit; font-weight: inherit; line-height: inherit; }
+    
+    /* Mobile adjustments */
+    @media only screen and (max-width: 480px) {
+        .mobile-pad { padding-left: 10px !important; padding-right: 10px !important; }
+    }
+</style>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%; max-width: 100%; background-color: #0E1004; background-image: linear-gradient(#0E1004, #0E1004);">
+    <tbody><tr>
+        <td align="center" style="padding: 20px;" class="mobile-pad">
+            
+            <div style="max-width: 600px; margin: 0 auto; font-family: Helvetica, Arial, sans-serif; line-height: 1.6; text-align: center; color: #e6e6e6; background-image: linear-gradient(#0E1004, #0E1004);">
+                
+                <a href="${headerLink}" style="text-decoration: none;"><img src="${headerImg}" alt="MOVA" style="width: 90%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto; border: 0;"></a>
+                <br>
+                
+                <p class="force-white" style="margin: 0 0 5px 0; font-size: 32px; font-weight: bold; color: #ffffff; letter-spacing: 2px;">
+                    ${date}
+                </p>
+                <p class="force-white" style="margin: 0 0 5px 0; font-size: 24px; font-weight: bold; color: #ffffff; letter-spacing: 1px;">
+                    ${day}
+                </p>
+                <p class="force-white" style="margin: 0 0 30px 0; font-size: 21px; font-weight: normal; color: #e6e6e6; letter-spacing: 1px;">
+                    ${time}
+                </p>
+
+                <h3 style="color: #93bda4; font-size: 18px; font-weight: normal; letter-spacing: 1px; margin-bottom: 20px;">
+                    Your personal invitation:
+                </h3>
+
+                <div style="background-color: #ffffff; padding: 10px; display: inline-block; border-radius: 4px; margin-bottom: 10px;">
+                    <img src="${qrUrl}" alt="Your QR Code" style="display: block; width: 250px; height: 250px; max-width: 100%; border: 0;">
+                </div>
+                
+                <p class="force-white" style="margin: 10px 0 40px 0; font-size: 16px; font-weight: bold; color: #ffffff;">
+                    *|EMAIL|*
+                </p>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Location
+                </h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <a href="${venueMapUrl}" target="_blank" style="color: #ffffff; text-decoration: underline; font-size: 21px; font-weight: bold;">
+                        ${venueName}
+                    </a>
+                </div>
+                
+                <ul class="force-text" style="list-style: disc; padding: 10px 20px; margin: 0; text-align: left; color: #e6e6e6;">
+                    New venue including:
+                    <ul style="list-style: disc; padding: 6px 0 0 22px; margin: 8px 0 0 0; font-size: 0.95em; color: #cccccc;">
+                        ${locFeatures}
+                    </ul>
+                </ul>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Instructions
+                </h2>
+
+                <ul class="force-text" style="list-style: none; padding: 0 20px; margin: 0; text-align: left; display: block; color: #e6e6e6;">
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> Show this invitation to the door host
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> +1s should show the email they have received after signing up
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> Entry might be denied to those who are not able to recall any house rules or perfomances
+                    </li>
+                </ul>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Entry
+                </h2>
+
+                <ul class="force-text" style="list-style: none; padding: 0 20px; margin: 0; text-align: left; display: block; color: #e6e6e6;">
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> Invitations can not be transferred to anyone else
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> No pre-sale, door sale only
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> 
+                        <strong style="color: #ffffff;">You may bring a +1</strong>, under the following conditions:
+                        
+                        <ul style="list-style: none; padding: 0 0 0 20px; margin: 10px 0 0 0; font-size: 0.95em; color: #cccccc;">
+                            <li style="margin-bottom: 6px;">
+                                - Make sure they signed up at <a href="http://movatila.com/" style="color: #93bda4; text-decoration: none;">movatila.com</a>
+                            </li>
+                            <li style="margin-bottom: 6px;">
+                                - Tell them to show the small QR code at the bottom of their confirmation email to the door host
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="force-text" style="color: #e6e6e6; text-align: left; padding: 0 20px; margin-top: 10px;">
+                    <span style="font-weight: bold; color: #ff9999;">Note:</span> your +1’s behaviour may influence your future invitations
+                </p>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Door Sale Only
+                </h2>
+                
+                <div style="font-size: 16px; color: #e6e6e6; text-align: center; padding: 0 20px; margin-bottom: 15px;">(Pay what you can)</div>
+
+                <div style="border-top: 1px solid #888888; margin: 20px 20px 0 20px; padding-top: 15px; text-align: left;">
+                    <div style="font-size: 18px; font-weight: bold; color: #ffffff; margin-bottom: 15px;">Entrance</div>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed; color: #ffffff;">
+                       <tbody><tr>
+                          <td valign="top" style="padding-right: 15px; width: 25%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">30</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Covers production costs</div>
+                          </td>
+                          <td valign="top" style="padding-right: 15px; width: 25%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">35</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Help sustain the event</div>
+                          </td>
+                          <td valign="top" style="padding-right: 15px; width: 25%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">40</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Contribute to active improvements</div>
+                          </td>
+                          <td valign="top" style="width: 25%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">50</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Help defend the people who inspire us</div>
+                          </td>
+                       </tr>
+                    </tbody></table>
+                </div>
+
+                <div style="border-top: 1px solid #888888; margin: 30px 20px 20px 20px; padding-top: 15px; text-align: left;">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed; color: #ffffff;">
+                       <tbody><tr>
+                          <td valign="top" style="padding-right: 15px; width: 33%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">45</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Heavy cotton oversized t-shirt (made in Amsterdam)</div>
+                          </td>
+                          <td valign="top" style="padding-right: 15px; width: 33%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">10</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Large locker (unlimited access)</div>
+                          </td>
+                          <td valign="top" style="width: 33%;">
+                             <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">5</div>
+                             <div style="font-size: 14px; color: #e6e6e6; line-height: 1.4; font-weight: normal;">Silicone earplugs</div>
+                          </td>
+                       </tr>
+                    </tbody></table>
+                </div>
+
+                <img src="${imgTshirt}" alt="MOVA T-shirt" style="width: 60%; height: auto; display: block; margin: 30px auto 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Awareness
+                </h2>
+
+                <ul class="force-text" style="list-style: none; padding: 0 20px; margin: 0; text-align: left; display: block; color: #e6e6e6;">
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> In case of <strong>questions</strong> or <strong>harassment</strong>, please reach out to our awareness team, recognisable by their red LED armbands
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> In case you need help in a discrete way, ask for a <strong>“MOVA Cocktail”</strong> at the bar or any of the staff members
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <span style="color: #93bda4; margin-right: 10px;">•</span> For emergencies, go to the security team at the entrance
+                    </li>
+                </ul>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    ${conceptTitle}
+                </h2>
+
+                <p class="force-text" style="margin-bottom: 20px; color: #e6e6e6;">
+                    <i>${conceptDesc}</i>
+                </p>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Timetable
+                </h2>
+
+                <table border="0" cellspacing="0" cellpadding="6" style="margin: 0 auto; text-align: left; color: #e6e6e6;">
+                    <tbody><tr>
+                        <td colspan="2" style="text-align: center; font-size: 14px; color: #888888; padding-top: 20px; padding-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">${s1Name}</td>
+                    </tr>
+                    ${s1Rows}
+                    <tr>
+                        <td colspan="2" style="text-align: center; font-size: 14px; color: #888888; padding-top: 30px; padding-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">${s2Name}</td>
+                    </tr>
+                    ${s2Rows}
+                </tbody></table>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Floorplan
+                </h2>
+                <img src="${imgFloorplan}" alt="Floorplan" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+                <div style="font-size: 14px; color: #888888; margin-top: 10px; text-align: center;">(Not to scale)</div>
+
+                <br><br>
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    House Rules
+                </h2>
+                <img src="${imgHouse}" alt="House Rules" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Consent Rules
+                </h2>
+                <img src="${imgConsent}" alt="Consent Rules" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Dress Code
+                </h2>
+                <img src="${imgDress}" alt="Dress Code" style="width: 100%; max-width: 600px; height: auto; border-radius: 4px; display: block; margin: 0 auto;">
+
+                <h2 style="color: #93bda4; border-bottom: 1px solid #333333; padding-bottom: 10px; margin: 40px 0 20px 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; font-weight: normal;">
+                    Personal Invite Link
+                </h2>
+
+                <p class="force-text" style="margin-bottom: 20px; color: #e6e6e6;">
+                    Invite new guests using your personal link:
+                </p>
+
+                <div style="background-color: #1a1c0d; border: 1px solid #333333; padding: 15px; border-radius: 4px; margin-bottom: 40px; word-break: break-all; text-align: center;">
+                    <a href="${refUrl}" style="color: #526b5c; text-decoration: none; font-family: monospace; font-size: 11px; user-select: all;">
+                        ${refUrl}
+                    </a>
+                </div>
+
+            </div>
+        </td>
+    </tr>
+</tbody></table>`;
+    }
+
+    function generateCurrentHtml() {
+      return currentMode === 'invitation' ? getInvitationHtml() : getLocationHtml();
+    }
+
+    function updatePreview() {
+      const code = generateCurrentHtml();
+      const iframeDoc = document.getElementById('preview-frame').contentDocument;
+      iframeDoc.open();
+      iframeDoc.write(code);
+      iframeDoc.close();
+    }
+
+    document.querySelectorAll('input, textarea').forEach(input => {
+      input.addEventListener('input', updatePreview);
+    });
+
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const code = generateCurrentHtml();
+      navigator.clipboard.writeText(code).then(() => {
+        const status = document.getElementById('copy-status');
+        status.style.display = 'inline';
+        setTimeout(() => { status.style.display = 'none'; }, 2000);
+      });
+    });
+
+    setMode('invitation');
+  </script>
+</body>
+</html>
